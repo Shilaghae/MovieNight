@@ -37,6 +37,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun showMovies(movies: List<Movie>) {
+        activity_home_moMovieToShow.visibility = if (movies.isEmpty()) View.VISIBLE else View.INVISIBLE
         movieAdapter.setMovies(movies)
     }
 
