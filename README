@@ -1,0 +1,2 @@
+Please add a file keystone.properties to the main root with the following line:
+TheMovieDbApiKey={"YOUR_API_KEY"}

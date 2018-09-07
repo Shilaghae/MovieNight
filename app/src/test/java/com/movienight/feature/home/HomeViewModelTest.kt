@@ -4,7 +4,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
 import com.movienight.data.Movie
 import com.movienight.error.ErrorMatcher
-import com.movienight.service.PopularMovieService
+import com.movienight.service.TopRatedMovieService
 import com.movienight.util.mockT
 import com.movienight.util.LifecycleOwnerUtil.LIFECYCLE_OWNER_UTIL
 import io.reactivex.schedulers.Schedulers
@@ -25,9 +25,9 @@ class HomeViewModelTest {
     @JvmField
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    var popularMovieService = mock(PopularMovieService::class.java)
+    var topRatedMovieService = mock(TopRatedMovieService::class.java)
     var observable: BehaviorSubject<List<Movie>> = BehaviorSubject.create()
-    val homeViewModel: HomeViewModel = HomeViewModel(Schedulers.trampoline(), popularMovieService)
+    val homeViewModel: HomeViewModel = HomeViewModel(Schedulers.trampoline(), topRatedMovieService)
 
     @Before
     fun setup() {
@@ -36,7 +36,7 @@ class HomeViewModelTest {
 
     @Test
     fun testNoMovieReturned() {
-        `when`(popularMovieService.getMostPopularMovies()).thenReturn(observable)
+        `when`(topRatedMovieService.getTopRatedMovies()).thenReturn(observable)
 
         val observer: Observer<List<Movie>> = mockT()
 
@@ -53,7 +53,7 @@ class HomeViewModelTest {
 
     @Test
     fun testTwoMoviesReturned() {
-        `when`(popularMovieService.getMostPopularMovies()).thenReturn(observable)
+        `when`(topRatedMovieService.getTopRatedMovies()).thenReturn(observable)
 
         val observer: Observer<List<Movie>> = mockT()
 
@@ -74,7 +74,7 @@ class HomeViewModelTest {
 
     @Test
     fun testAHttpErrorReturnsWhileRetrievingTheMovies() {
-        `when`(popularMovieService.getMostPopularMovies()).thenReturn(observable)
+        `when`(topRatedMovieService.getTopRatedMovies()).thenReturn(observable)
 
         val observer: Observer<String> = mockT()
 
@@ -93,7 +93,7 @@ class HomeViewModelTest {
 
     @Test
     fun testAnUnknownHostExceptionReturnsWhileRetrievingTheMovies() {
-        `when`(popularMovieService.getMostPopularMovies()).thenReturn(observable)
+        `when`(topRatedMovieService.getTopRatedMovies()).thenReturn(observable)
 
         val observer: Observer<String> = mockT()
 
@@ -110,7 +110,7 @@ class HomeViewModelTest {
 
     @Test
     fun testAGeneralErrorExceptionReturnsWhileRetrievingTheMovies() {
-        `when`(popularMovieService.getMostPopularMovies()).thenReturn(observable)
+        `when`(topRatedMovieService.getTopRatedMovies()).thenReturn(observable)
 
         val observer: Observer<String> = mockT()
 

@@ -9,24 +9,24 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class PopularMovieService @Inject constructor(apiService: ApiService) {
+open class TopRatedMovieService @Inject constructor(apiService: ApiService) {
 
     companion object {
         private const val apiKey = BuildConfig.THEMOVIEBD_API_KEY
     }
 
-    val popularMovieServiceApi: PopularMovieServiceApi
+    val topRatedMovieServiceApi: PopularMovieServiceApi
 
     init {
-        popularMovieServiceApi = apiService.retrofit.create(PopularMovieServiceApi::class.java)
+        topRatedMovieServiceApi = apiService.retrofit.create(PopularMovieServiceApi::class.java)
     }
 
-    open fun getMostPopularMovies(): Observable<List<Movie>> {
-        return popularMovieServiceApi.mostPopularMovies(apiKey).map { it.results }
+    open fun getTopRatedMovies(): Observable<List<Movie>> {
+        return topRatedMovieServiceApi.mostPopularMovies(apiKey).map { it.results }
     }
 
     interface PopularMovieServiceApi {
-        @GET("3/movie/popular")
+        @GET("3/movie/top_rated")
         fun mostPopularMovies(@Query("api_key") apiKey: String): Observable<MovieResponse>
     }
 }

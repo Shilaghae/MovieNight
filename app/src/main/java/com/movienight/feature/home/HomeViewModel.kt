@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel
 import com.movienight.base.RxModule
 import com.movienight.data.Movie
 import com.movienight.error.handleException
-import com.movienight.service.PopularMovieService
+import com.movienight.service.TopRatedMovieService
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
@@ -14,7 +14,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Scheduler, val popularMovieService: PopularMovieService) :
+class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Scheduler, val topRatedMovieService: TopRatedMovieService) :
         ViewModel() {
 
     var compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
     var errorLiveData: MutableLiveData<String> = MutableLiveData()
 
     fun retrieveData() {
-        compositeDisposable.add(popularMovieService.getMostPopularMovies()
+        compositeDisposable.add(topRatedMovieService.getTopRatedMovies()
                 .observeOn(uiScheduler)
                 .doOnSubscribe { loadingLiveDate.postValue(true) }
                 .doOnError { loadingLiveDate.postValue(false) }
