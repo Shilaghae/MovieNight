@@ -36,15 +36,17 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     class MovieViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         fun setMovie(movie: Movie) {
-            itemView.movie_item_textView_movieTitle.setText(movie.movieTitle)
-            val uri = Uri.Builder().scheme("http")
-                    .authority("image.tmdb.org")
-                    .appendPath("t")
-                    .appendPath("p")
-                    .appendPath("w185")
-                    .appendPath(movie.moviePosterImagePath.removePrefix("/"))
-                    .build()
-            Picasso.with(itemView.context).load(uri).into(itemView.movie_item_imageView)
+            itemView.movie_item_textView_movieTitle.setText(movie.title)
+            if (movie.poster_path != null) {
+                val uri = Uri.Builder().scheme("http")
+                        .authority("image.tmdb.org")
+                        .appendPath("t")
+                        .appendPath("p")
+                        .appendPath("w185")
+                        .appendPath(movie.poster_path.removePrefix("/"))
+                        .build()
+                Picasso.with(itemView.context).load(uri).into(itemView.movie_item_imageView)
+            }
         }
 
     }

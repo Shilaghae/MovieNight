@@ -3,8 +3,8 @@ package com.movienight.feature.home
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.movienight.base.RxModule
-import com.movienight.error.handleException
 import com.movienight.data.Movie
+import com.movienight.error.handleException
 import com.movienight.service.PopularMovieService
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable

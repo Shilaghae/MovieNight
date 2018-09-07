@@ -1,7 +1,6 @@
 package com.movienight.base
 
 import com.movienight.MovieNightApp
-import com.movienight.base.RxModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
