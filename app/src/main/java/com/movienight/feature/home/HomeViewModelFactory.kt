@@ -19,5 +19,4 @@ class HomeViewModelFactory constructor(val activity: HomeActivity, val topRatedM
                 .get(HomeViewModel::class.java)
 
     }
-
 }

@@ -37,6 +37,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
         fun setMovie(movie: Movie) {
             itemView.movie_item_textView_movieTitle.setText(movie.title)
+            itemView.movie_item_textView_movieOverview.setText(movie.overview)
             if (movie.poster_path != null) {
                 val uri = Uri.Builder().scheme("http")
                         .authority("image.tmdb.org")
