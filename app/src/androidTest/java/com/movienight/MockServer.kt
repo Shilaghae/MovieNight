@@ -67,21 +67,8 @@ class MockServer @Inject constructor() {
         dispatchRoutes[urlPath] = MockResponse().setResponseCode(code)
     }
 
-
-    fun setUserCreditScoreInfo(pathFile: String) {
-        enqueueSuccess("/prod/mockcredit/values", testDataLoader.loadString(pathFile))
-    }
-
-    fun missingAuthenticationToken() {
-        enqueueFailure("/prod/mockcredit/values", 403)
-    }
-
-    fun setServerDown() {
-        enqueueFailure("/prod/mockcredit/values", 404)
-    }
-
-    fun setNoCreditScore() {
-        enqueueSuccess("/prod/mockcredit/values", testDataLoader.loadString("score_not_available.json"))
+    fun setTopRatedMovies() {
+        enqueueSuccess("/3/movie/top_rated", testDataLoader.loadString("toprated_movies.json"))
     }
 }
 

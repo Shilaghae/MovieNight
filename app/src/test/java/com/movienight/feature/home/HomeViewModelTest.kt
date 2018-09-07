@@ -17,7 +17,6 @@ import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
 import java.net.UnknownHostException
 
-
 class HomeViewModelTest {
 
     // Executes each task synchronously using Architecture Components. For more information {@link https://github.com/googlesamples/android-architecture}
