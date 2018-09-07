@@ -25,6 +25,8 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
 
     var errorLiveData: MutableLiveData<String> = MutableLiveData()
 
+    var onMovieClickedLiveData: MutableLiveData<Movie> = MutableLiveData()
+
     fun retrieveData() {
         compositeDisposable.add(topRatedMovieService.getTopRatedMovies()
                 .observeOn(uiScheduler)
