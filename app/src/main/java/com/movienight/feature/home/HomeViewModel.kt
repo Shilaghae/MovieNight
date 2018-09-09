@@ -41,11 +41,10 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
                                 .doOnNext({
                                     movieDatabase.movieDao().deleteAllMovies()
                                 })
-                                .map({ movies ->
+                                .doOnNext({ movies ->
                                     Observable.fromIterable(movies).subscribe({
                                         movieDatabase.movieDao().insert(it)
                                     })
-                                    movies
                                 })
                                 .observeOn(uiScheduler)
                                 .doOnSubscribe { loadingLiveDate.postValue(true) }
