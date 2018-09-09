@@ -53,34 +53,11 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
                                 .doOnComplete { loadingLiveDate.postValue(false) }
                                 .subscribe({}, { error ->
                                     error.fillInStackTrace()
-                                    Timber.d(error.message)
+                                    Timber.d(error)
                                     errorLiveData.postValue(handleException(error).error)
                                 })
                     }
                 }))
-//
-//
-//        compositeDisposable.add(topRatedMovieService.getTopRatedMovies()
-//                .doOnNext({
-//                    movieDatabase.movieDao().deleteAllMovies()
-//                })
-//                .map({ movies ->
-//                    Observable.fromIterable(movies).subscribe({
-//                        movieDatabase.movieDao().insert(it)
-//                    })
-//                    movies
-//                })
-//                .observeOn(uiScheduler)
-//                .doOnSubscribe { loadingLiveDate.postValue(true) }
-//                .doOnError { loadingLiveDate.postValue(false) }
-//                .doOnComplete { loadingLiveDate.postValue(false) }
-//                .subscribe({ movies ->
-//                    moviesLiveData.postValue(movies)
-//                }, { error ->
-//                    error.fillInStackTrace()
-//                    Timber.d(error.message)
-//                    errorLiveData.postValue(handleException(error).error)
-//                }))
     }
 
     override fun onCleared() {
