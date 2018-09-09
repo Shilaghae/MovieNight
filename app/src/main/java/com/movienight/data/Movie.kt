@@ -1,11 +1,14 @@
 package com.movienight.data
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 
+@Entity(tableName = "movie_table")
 data class Movie(val title: String,
         val vote_average: String? = "0",
-        val id: Int,
+        @PrimaryKey val id: Int,
         val poster_path: String? = null,
         val overview: String? = null,
         val release_date: String? = null) : Parcelable {

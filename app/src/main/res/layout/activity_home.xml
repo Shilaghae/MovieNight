@@ -32,6 +32,7 @@
         android:id="@+id/activity_home_moMovieToShow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:gravity="center"
         android:textSize="@dimen/no_movies_to_show"
         android:text="@string/no_movies_to_show"

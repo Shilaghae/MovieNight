@@ -34,7 +34,7 @@ class HomeActivity : BaseActivity() {
         homeViewModule.apply {
             loadingLiveDate.observe(this@HomeActivity, Observer { showLoading(it!!) })
             errorLiveData.observe(this@HomeActivity, Observer { showError(it!!) })
-            moviesLiveData.observe(this@HomeActivity, Observer { showMovies(it!!) })
+            repositoryMovieLiveData.observe(this@HomeActivity, Observer { showMovies(it!!) })
             onMovieClickedLiveData.observe(this@HomeActivity, Observer { showMovie(it) })
         }
 
