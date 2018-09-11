@@ -18,7 +18,8 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Scheduler, val topRatedMovieService: TopRatedMovieService,
+class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Scheduler,
+        val topRatedMovieService: TopRatedMovieService,
         val movieDatabase: MovieDatabase, val networkWatcher: NetworkWatcher) :
         ViewModel() {
 
@@ -36,7 +37,7 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
 
         compositeDisposable.add(networkWatcher.onConnectionChanged()
                 .subscribe({
-                    if(it) {
+                    if (it) {
                         topRatedMovieService.getTopRatedMovies()
                                 .doOnNext({
                                     movieDatabase.movieDao().deleteAllMovies()
@@ -62,5 +63,21 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+    }
+
+    fun getTopRatedMovieService() {
+        compositeDisposable.add(topRatedMovieService.getTopRatedMovies()
+                .doOnNext({
+                    movieDatabase.movieDao().deleteAllMovies()
+                })
+                .doOnNext({ movies ->
+                    Observable.fromIterable(movies).subscribe({
+                        movieDatabase.movieDao().insert(it)
+                    })
+                })
+                .observeOn(uiScheduler)
+                .subscribe({}, { error ->
+                    errorLiveData.postValue(handleException(error).error)
+                }))
     }
 }

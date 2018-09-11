@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/select_movie_menu_spinner"
+        android:title="@string/select_movie"
+        app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="always">
+    </item>
+</menu>

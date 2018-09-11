@@ -5,8 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.*
+import android.widget.ArrayAdapter.createFromResource
 import com.movienight.R
 import com.movienight.base.BaseActivity
 import com.movienight.data.Movie
@@ -14,7 +17,8 @@ import com.movienight.feature.detail.MovieDetailActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
+
 
     @Inject
     lateinit var homeViewModule: HomeViewModel
@@ -65,5 +69,26 @@ class HomeActivity : BaseActivity() {
 
     fun showError(error: String) {
         Snackbar.make(activity_home_constraintLayout, error, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.select_movies_menu, menu)
+        val menuItem =  menu!!.findItem(R.id.select_movie_menu_spinner)
+        val spinner = menuItem.actionView as Spinner
+        val adapter = createFromResource(this, R.array.select_movies, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.setOnItemSelectedListener(this@HomeActivity)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val menuItem = view as TextView
+        when(menuItem.text) {
+            resources.getString(R.string.top_rated) -> homeViewModule.getTopRatedMovieService()
+            resources.getString(R.string.most_populare) -> homeViewModule.getTopRatedMovieService()
+        }
     }
 }
