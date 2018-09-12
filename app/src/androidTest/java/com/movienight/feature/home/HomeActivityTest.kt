@@ -5,7 +5,6 @@ import com.movienight.base.BaseUiTest
 import org.junit.Rule
 import org.junit.Test
 
-
 class HomeActivityTest: BaseUiTest() {
 
     @Rule

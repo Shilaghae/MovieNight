@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
                     moviesLiveData.postValue(movies)
                 }, { error ->
                     error.fillInStackTrace()
-                    Timber.d(error.message)
+                    Timber.d(error)
                     errorLiveData.postValue(handleException(error).error)
                 }))
     }
