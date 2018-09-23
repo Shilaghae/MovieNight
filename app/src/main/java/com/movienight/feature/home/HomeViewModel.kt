@@ -14,7 +14,8 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Scheduler, val topRatedMovieService: TopRatedMovieService) :
+class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Scheduler, val topRatedMovieService: TopRatedMovieService,
+        val homeViewErrorHandler: HomeViewErrorHandler) :
         ViewModel() {
 
     var compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -23,7 +24,7 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
 
     var loadingLiveDate: MutableLiveData<Boolean> = MutableLiveData()
 
-    var errorLiveData: MutableLiveData<String> = MutableLiveData()
+    var errorLiveData: MutableLiveData<() -> Unit> = MutableLiveData()
 
     fun retrieveData() {
         compositeDisposable.add(topRatedMovieService.getTopRatedMovies()
@@ -36,7 +37,7 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
                 }, { error ->
                     error.fillInStackTrace()
                     Timber.d(error)
-                    errorLiveData.postValue(handleException(error).error)
+                    errorLiveData.postValue(handleException(error, homeViewErrorHandler))
                 }))
     }
 
