@@ -1,23 +1,23 @@
 package com.movienight
 
+import com.movienight.base.ApplicationComponent
 import com.movienight.base.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import timber.log.Timber
-import android.net.ConnectivityManager
-import android.content.IntentFilter
-
 
 open class MovieNightApp : DaggerApplication() {
 
+    lateinit var applicationComponent: ApplicationComponent
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerApplicationComponent.builder().application(this)
-                .create(this)
+        applicationComponent = DaggerApplicationComponent.builder()
+                .application(this)
+                .create(this) as ApplicationComponent
+        return applicationComponent
     }
 }

@@ -1,19 +1,20 @@
 package com.movienight.error
 
+import com.movienight.base.view.ViewErrorHandler
 import retrofit2.HttpException
 import java.net.UnknownHostException
 
-fun handleException(exception: Throwable): ErrorMatcher {
+fun handleException(exception: Throwable, viewErrorHandler: ViewErrorHandler): (() -> Unit)? {
     when {
         exception is HttpException -> {
             when (exception.code()) {
-                403 -> return ErrorMatcher.FORBIDDEN
-                404 -> return ErrorMatcher.NOT_FOUND
-                else -> return ErrorMatcher.GENERAL_ERROR
+                403 -> return viewErrorHandler.onForbidden()
+                404 -> return viewErrorHandler.onResourceNoFound()
+                else -> return viewErrorHandler.onGenericError()
             }
         }
-        exception is UnknownHostException -> return ErrorMatcher.NO_CONNECTION
-        else -> return ErrorMatcher.GENERAL_ERROR
+        exception is UnknownHostException -> return viewErrorHandler.onNetworkError()
+        else -> return viewErrorHandler.onGenericError()
     }
 }
 

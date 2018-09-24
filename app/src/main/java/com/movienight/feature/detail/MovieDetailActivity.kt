@@ -3,10 +3,44 @@ package com.movienight.feature.detail
 import android.os.Bundle
 import com.movienight.R
 import com.movienight.base.BaseActivity
+import com.movienight.base.view.ViewError
+import com.movienight.base.view.ViewErrorHandler
 import com.movienight.data.Movie
+import com.movienight.feature.home.HomeViewErrorHandler
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
-class MovieDetailActivity : BaseActivity() {
+class MovieDetailActivity : BaseActivity(), ViewError {
+    override fun onConnectivityUnavailable(): (() -> Unit)? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onConnectivityAvailable(): (() -> Unit)? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onGenericError(): (() -> Unit)? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun userNotAuthenticated(): (() -> Unit)? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onResourceNotFound(): (() -> Unit)? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onForbidden(): (() -> Unit)? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getViewError(): ViewError {
+        return this;
+    }
+
+    override fun getViewErrorHandler(): ViewErrorHandler {
+        return HomeViewErrorHandler()
+    }
 
     var movie: Movie? = null
 

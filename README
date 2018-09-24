@@ -1,2 +1,8 @@
+Description
+Movie Night shows the most rated movie, it calls the MovieDbApi, for more information go to https://www.themoviedb.org/documentation/api.
+There is also an example of implementing the Room Database in the branch room_database
+
+Settings
+
 Please add a file keystone.properties to the main root with the following line:
 TheMovieDbApiKey={"YOUR_API_KEY"}

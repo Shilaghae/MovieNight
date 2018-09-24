@@ -20,8 +20,8 @@ import javax.inject.Singleton
 @Singleton
 class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Scheduler,
         val topRatedMovieService: TopRatedMovieService,
-        val movieDatabase: MovieDatabase, val networkWatcher: NetworkWatcher) :
-        ViewModel() {
+        val movieDatabase: MovieDatabase, val networkWatcher: NetworkWatcher,
+        val homeViewErrorHandler: HomeViewErrorHandler) : ViewModel() {
 
     var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -29,12 +29,11 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
 
     var loadingLiveDate: MutableLiveData<Boolean> = MutableLiveData()
 
-    var errorLiveData: MutableLiveData<String> = MutableLiveData()
+    var errorLiveData: MutableLiveData<() -> Unit> = MutableLiveData()
 
     var onMovieClickedLiveData: MutableLiveData<Movie> = MutableLiveData()
 
     fun retrieveData() {
-
         compositeDisposable.add(networkWatcher.onConnectionChanged()
                 .subscribe({
                     if (it) {
@@ -54,7 +53,7 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
                                 .subscribe({}, { error ->
                                     error.fillInStackTrace()
                                     Timber.d(error)
-                                    errorLiveData.postValue(handleException(error).error)
+                                    errorLiveData.postValue(handleException(error, homeViewErrorHandler))
                                 })
                     }
                 }))
@@ -77,7 +76,7 @@ class HomeViewModel @Inject constructor(@Named(RxModule.ui) val uiScheduler: Sch
                 })
                 .observeOn(uiScheduler)
                 .subscribe({}, { error ->
-                    errorLiveData.postValue(handleException(error).error)
+                    errorLiveData.postValue(handleException(error, homeViewErrorHandler))
                 }))
     }
 }

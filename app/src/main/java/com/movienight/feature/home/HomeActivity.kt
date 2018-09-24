@@ -6,24 +6,30 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
 import android.widget.ArrayAdapter.createFromResource
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import com.movienight.R
 import com.movienight.base.BaseActivity
+import com.movienight.base.view.ViewError
+import com.movienight.base.view.ViewErrorHandler
 import com.movienight.data.Movie
 import com.movienight.feature.detail.MovieDetailActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
-
+class HomeActivity : BaseActivity(), AdapterView.OnItemSelectedListener, ViewError {
 
     @Inject
     lateinit var homeViewModule: HomeViewModel
 
     lateinit var movieAdapter: MovieAdapter
+
+    @Inject
+    lateinit var homeViewErrorHandler: HomeViewErrorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,12 +43,20 @@ class HomeActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
 
         homeViewModule.apply {
             loadingLiveDate.observe(this@HomeActivity, Observer { showLoading(it!!) })
-            errorLiveData.observe(this@HomeActivity, Observer { showError(it!!) })
+            errorLiveData.observe(this@HomeActivity, Observer { it?.invoke()!! })
             repositoryMovieLiveData.observe(this@HomeActivity, Observer { showMovies(it!!) })
             onMovieClickedLiveData.observe(this@HomeActivity, Observer { showMovie(it) })
         }
 
         homeViewModule.retrieveData()
+    }
+
+    override fun getViewErrorHandler(): ViewErrorHandler {
+        return homeViewErrorHandler;
+    }
+
+    override fun getViewError(): ViewError {
+        return this
     }
 
     private fun showMovies(movies: List<Movie>) {
@@ -67,8 +81,29 @@ class HomeActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         return R.layout.activity_home
     }
 
-    fun showError(error: String) {
-        Snackbar.make(activity_home_constraintLayout, error, Snackbar.LENGTH_LONG).show()
+    override fun onConnectivityAvailable() = {
+        Snackbar.make(activity_home_constraintLayout, "Connectivity available!", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onConnectivityUnavailable() = {
+        Snackbar.make(activity_home_constraintLayout, "Connectivity unavailable!", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onGenericError() = {
+        Snackbar.make(activity_home_constraintLayout, "Generic Error!", Snackbar.LENGTH_LONG).show()
+    }
+
+
+    override fun userNotAuthenticated() = {
+        Snackbar.make(activity_home_constraintLayout, "User not authenticated!", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onResourceNotFound() = {
+        Snackbar.make(activity_home_constraintLayout, "Resource not available!", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onForbidden() =  {
+        Snackbar.make(activity_home_constraintLayout, "Forbidden", Snackbar.LENGTH_LONG).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

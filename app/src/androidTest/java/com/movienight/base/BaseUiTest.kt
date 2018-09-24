@@ -14,8 +14,8 @@ open class BaseUiTest {
 
     @Before
     fun setUp() {
-        val movieNightApp = InstrumentationRegistry.getTargetContext().applicationContext as MovieNightTestApplication
-        movieNightApp.applicationTestComponent.inject(this)
+        val app = InstrumentationRegistry.getTargetContext().applicationContext as MovieNightTestApplication
+        app.applicationTestComponent.inject(this)
     }
 
     @After
