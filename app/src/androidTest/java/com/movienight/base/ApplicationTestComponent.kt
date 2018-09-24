@@ -1,6 +1,5 @@
 package com.movienight.base
 
-import android.app.Activity
 import com.movienight.MovieNightTestApplication
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -19,5 +18,5 @@ interface ApplicationTestComponent : AndroidInjector<MovieNightTestApplication> 
     @Component.Builder
     abstract class Builder : AndroidInjector.Builder<MovieNightTestApplication>()
 
-    fun injectActivity(activity: Activity)
+    fun inject(baseUiTest: BaseUiTest)
 }

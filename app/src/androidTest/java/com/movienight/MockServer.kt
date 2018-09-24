@@ -68,7 +68,7 @@ class MockServer @Inject constructor() {
     }
 
     fun setTopRatedMovies() {
-        enqueueSuccess("/3/movie/top_rated", testDataLoader.loadString("toprated_movies.json"))
+        enqueueSuccess("/3/movie/top_rated?api_key=e4f9e61f6ffd66639d33d3dde7e3159b", testDataLoader.loadString("toprated_movies.json"))
     }
 }
 

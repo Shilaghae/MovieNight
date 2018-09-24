@@ -12,12 +12,13 @@ class HomeActivityTest: BaseUiTest() {
     @Rule
     @JvmField
     var activityTestRule: ActivityTestRule<HomeActivity> = ActivityTestRule(HomeActivity::class.java,
-            false,
-            true)
+            true,
+            false)
 
     @Test
     fun testUserRetrieveTopRatedMovies() {
         mockServer.setTopRatedMovies()
+        activityTestRule.launchActivity(null)
         val movies = arrayListOf("Dilwale Dulhania Le Jayenge", "The Shawshank Redemption")
 
         AssertUtils.assertRecyclerViewItemsMatchList(R.id.activity_home_recyclerView, R.id.movie_item_textView_movieTitle, movies);

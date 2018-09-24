@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class TopRatedMovieService @Inject constructor(apiService: ApiService) {
+open class TopRatedMovieService @Inject constructor(apiService: NetworkService) {
 
     companion object {
         private const val apiKey = BuildConfig.THEMOVIEBD_API_KEY
@@ -18,7 +18,7 @@ open class TopRatedMovieService @Inject constructor(apiService: ApiService) {
     val topRatedMovieServiceApi: PopularMovieServiceApi
 
     init {
-        topRatedMovieServiceApi = apiService.retrofit.create(PopularMovieServiceApi::class.java)
+        topRatedMovieServiceApi = apiService.getRetrofitInstance().create(PopularMovieServiceApi::class.java)
     }
 
     open fun getTopRatedMovies(): Observable<List<Movie>> {

@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
 import javax.inject.Named
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 @Module

@@ -14,10 +14,12 @@ open class BaseUiTest {
 
     @Before
     fun setUp() {
-        val app = InstrumentationRegistry.getTargetContext().applicationContext as MovieNightTestApplication
-        app.applicationTestComponent.inject(this)
+        val clearScoreApp = InstrumentationRegistry.getTargetContext().applicationContext as MovieNightTestApplication
+        clearScoreApp.applicationTestComponent.inject(this)
     }
 
     @After
-    fun tearDown() {}
+    fun tearDown() {
+
+    }
 }
